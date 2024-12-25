@@ -1,8 +1,8 @@
-# 🎫 Support tickets template
+# 🎫 FMI CRM SYSTEM
 
-A simple Streamlit app showing an internal tool that lets you create, manage, and visualize support tickets. 
+Simple CRM for FMI activities. 
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://support-tickets-template.streamlit.app/)
+<!-- [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://support-tickets-template.streamlit.app/) -->
 
 ### How to run it on your own machine
 
@@ -17,3 +17,10 @@ A simple Streamlit app showing an internal tool that lets you create, manage, an
    ```
    $ streamlit run streamlit_app.py
    ```
+
+### Develop on your laptop PC, using venv
+
+```
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+```

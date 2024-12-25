@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 
-st.set_page_config(
-    page_title="取引先企業",
-    page_icon=":sparkles:"
-)
+# st.set_page_config(
+#     page_title="取引先企業",
+#     page_icon=":sparkles:"
+# )
 
 # サンプルデータの作成
 # data = {
@@ -37,11 +37,11 @@ df = df.rename(columns={'san_org_registration_addressinside_prefecture': '所在
     'san_org_registration_addressinside_city': '所在地（市町村）',
                         'san_org_registration_addressinside_zipcode': '郵便番号',
                         'san_org_registration_addressinside': '所在地',
-                        'san_org_tbd_kanatradenameforsearch':'カナ',
+                        'san_org_tdb_kanatradenameforsearch':'カナ',
                         'name': '企業名'})
 
 # Streamlitでテーブルを表示
-st.title(':sparkles: 取引先企業 ')
+# st.title(':sparkles: 取引先企業 ')
 # 検索ボックスを作成してページタイトルの下に表示
 search_term = st.text_input('検索', '')
 
