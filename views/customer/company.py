@@ -15,7 +15,7 @@ import sqlite3
 # }
 
 # SQLiteデータベースに接続
-conn = sqlite3.connect('./data/accounts.db')
+conn = sqlite3.connect('./test/data/accounts.db')
 
 # SQLクエリを実行してデータを取得
 query = "SELECT * FROM accounts"
