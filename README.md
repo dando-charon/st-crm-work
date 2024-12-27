@@ -18,9 +18,20 @@ Simple CRM for FMI activities.
    $ streamlit run streamlit_app.py
    ```
 
-### Develop on your laptop PC, using venv
+#
+### FYI: set up
 
 ```
-# Windows PowerShell
-.venv\Scripts\Activate.ps1
+   $ python -m venv .venv
 ```
+
+#
+### Develop on your laptop PC, using venv
+
+- When you start develp, use this windows powershell command
+
+```
+  $ .venv\Scripts\Activate.ps1
+```
+
+
