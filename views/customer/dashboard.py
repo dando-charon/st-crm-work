@@ -7,16 +7,16 @@ import altair as alt
 np.random.seed(42)
 dates = pd.date_range('2024-01-01', periods=365)
 sales_data = pd.DataFrame({
-    'Department A': np.random.randint(50, 1500, size=365) * np.random.choice([1, 1.5, 2], size=365),
-    'Department B': np.random.randint(50, 1500, size=365) * np.random.choice([1, 1.5, 2], size=365),
-    'Department C': np.random.randint(50, 1500, size=365) * np.random.choice([1, 1.5, 2], size=365)
+    'Department A': np.random.randint(-150, 1500, size=365) * np.random.choice([1, 1.5, 2], size=365),
+    'Department B': np.random.randint(0, 700, size=365) * np.random.choice([1, 1.5, 2], size=365),
+    'Department C': np.random.randint(-1050, 2500, size=365) * np.random.choice([1, 1.5, 2], size=365)
 }, index=dates)
 
 # Generate sample sales target data for departments
 sales_target_data = pd.DataFrame({
-    'Department A': np.random.randint(100, 1200, size=365) * np.random.choice([1, 1.5, 2], size=365),
-    'Department B': np.random.randint(100, 1200, size=365) * np.random.choice([1, 1.5, 2], size=365),
-    'Department C': np.random.randint(100, 1200, size=365) * np.random.choice([1, 1.5, 2], size=365)
+    'Department A': np.random.randint(500, 900, size=365) * np.random.choice([1, 1.5, 2], size=365),
+    'Department B': np.random.randint(400, 500, size=365) * np.random.choice([1, 1.5, 2], size=365),
+    'Department C': np.random.randint(1000, 1500, size=365) * np.random.choice([1, 1.5, 2], size=365)
 }, index=dates)
 
 # Add quarter column to sales data and sales target data
@@ -33,7 +33,7 @@ quarterly_sales_target_data = sales_target_data.resample('QE').sum(numeric_only=
 customer_names = ['Customer A', 'Customer B', 'Customer C', 'Customer D', 'Customer E', 
                   'Customer F', 'Customer G', 'Customer H', 'Customer I', 'Customer J',
                   'Customer K', 'Customer L', 'Customer M', 'Customer N', 'Customer O']
-visitor_names = ['Visitor X', 'Visitor Y', 'Visitor Z', 'Visitor W', 'Visitor V']
+visitor_names = ['Employee X', 'Employee Y', 'Employee Z', 'Employee W', 'Employee V']
 customer_list = pd.DataFrame({
     'Customer Name': np.random.choice(customer_names, 100),
     'Last Visit Date': pd.to_datetime(np.random.choice(pd.date_range('2024-01-01', '2024-12-31'), 100)),
@@ -51,11 +51,14 @@ st.set_page_config(
 st.title('Sales and Customer Visits Data Viewer')
 
 # 集計単位を選択するラジオボタン
-aggregation_type = st.radio('Select Aggregation Type', ('Monthly', 'Quarterly'))
+col1, col2 = st.columns(2)
+with col1:
+    aggregation_type = st.radio('Select Aggregation Type', ('Monthly', 'Quarterly'))
 
-# 部署を選択するマルチセレクトボックス
-departments = ['All Departments', 'Department A', 'Department B', 'Department C']
-selected_departments = st.multiselect('Select Department(s)', departments, default='All Departments')
+with col2:
+    # 部署を選択するラジオボタン
+    departments = ['All Departments', 'Department A', 'Department B', 'Department C']
+    selected_department = st.radio('Select Department', departments, index=0)
 
 if aggregation_type == "Monthly":
     sales_data_to_display = monthly_sales_data
@@ -64,8 +67,10 @@ else:
     sales_data_to_display = quarterly_sales_data
     sales_target_to_display = quarterly_sales_target_data
 
-if "All Departments" in selected_departments:
+if selected_department == "All Departments":
     selected_departments = ['Department A', 'Department B', 'Department C']
+else:
+    selected_departments = [selected_department]
 
 filtered_customer_list = customer_list
 
@@ -98,18 +103,30 @@ sales_chart = alt.Chart(combined_sales_data_long).mark_bar().encode(
 
 st.altair_chart(sales_chart)
 
+# スライダーで期間を選択する
+start_date, end_date = st.slider(
+    "Select date range",
+    min_value=pd.to_datetime(customer_list['Last Visit Date']).min().date(),
+    max_value=pd.to_datetime(customer_list['Last Visit Date']).max().date(),
+    value=(pd.to_datetime(customer_list['Last Visit Date']).min().date(), pd.to_datetime(customer_list['Last Visit Date']).max().date())
+)
+
+filtered_customer_list = customer_list[(customer_list['Last Visit Date'] >= pd.to_datetime(start_date)) & (customer_list['Last Visit Date'] <= pd.to_datetime(end_date))]
+
 # Display the number of visits per customer as a horizontal bar chart using Altair
 visit_counts = filtered_customer_list['Customer Name'].value_counts().reset_index()
 visit_counts.columns = ['Customer Name', 'Visit Count']
 
 st.subheader('Number of Visits per Customer')
 visit_chart = alt.Chart(visit_counts).mark_bar().encode(
-    x='Visit Count:Q',
-    y=alt.Y('Customer Name:N', sort='-x')
+    x=alt.X('Visit Count:Q', axis=alt.Axis(format='d')),
+    y=alt.Y('Customer Name:N', sort='-x'),
+    opacity=alt.value(0.6),
+    color=alt.value('#ed23d1')
 ).properties(
     width=600,
     height=400
-)
+).configure(background='#f9fbf8')
 
 st.altair_chart(visit_chart)
 

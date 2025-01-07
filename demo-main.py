@@ -22,16 +22,16 @@ logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 dashboard = st.Page(
     "views/customer/dashboard.py",
     title="ダッシュボード",
-    icon=":material/dashboard:"
+    icon="⚡"
 )
 contracts = st.Page(
-    "views/customer/contracts.py", title="契約", icon="💼"
+    "views/customer/contracts.py", title="契約", icon="⚡"
 )
-company = st.Page("views/customer/company.py", title="取引先企業", icon="📕")
+company = st.Page("views/customer/company.py", title="取引先企業", icon="⚡")
 
-activity = st.Page("views/sales/activity.py", title="活動報告", icon="📰")
-case = st.Page("views/sales/case.py", title="案件", icon="🎁")
-assign = st.Page("views/sales/assign.py", title="アサイン情報", icon="🚩")
+activity = st.Page("views/sales/activity.py", title="活動報告", icon="⚡")
+case = st.Page("views/sales/case.py", title="案件", icon="⚡")
+assign = st.Page("views/sales/assign.py", title="アサイン情報", icon="⚡")
 
 if st.session_state.logged_in:
     pg = st.navigation(
