@@ -43,7 +43,6 @@ df = df.rename(columns={'san_org_registration_addressinside_prefecture': '所在
 # Streamlitでテーブルを表示
 # st.title(':sparkles: 取引先企業 ')
 # 検索ボックスを作成してページタイトルの下に表示
-st.title("取引先企業")
 search_term = st.text_input('検索', '')
 
 # 検索ボックスの入力に基づいてデータフレームをフィルタリング
