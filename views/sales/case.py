@@ -38,10 +38,11 @@ months = list(range(1, 13))
 
 # フィルターの作成
 st.header('フィルター')
-col1, col2 = st.columns([2, 2])
+col1, col2 = st.columns([1, 2])
 with col1:
     selected_department = st.multiselect('部署別', df['部署別'].unique())
     selected_person = st.multiselect('担当者', df['担当者'].unique())
+    selected_company = st.multiselect('企業別', df['クライアント企業名'].unique())
 with col2:
     selected_year = st.selectbox('年を選択してください。:', [None] + years)
     selected_month = st.selectbox('月を選択してください。:', [None] + months)
@@ -56,6 +57,8 @@ if selected_department:
     df = df[df['部署別'].isin(selected_department)]
 if selected_person:
     df = df[df['担当者'].isin(selected_person)]
+if selected_company:
+    df = df[df['クライアント企業名'].isin(selected_company)]
 if selected_year and selected_month:
     start_date_str = f"{selected_year}-{selected_month:02d}-01"
     start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
